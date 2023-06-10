@@ -45,10 +45,3 @@ int64_t Compute(const std::vector<std::unordered_map<size_t, int64_t>> &forward)
     }
     return res;
 }
-
-int main() {
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
-    std::cout << Compute(ParseData(std::cin));
-    return 0;
-}

@@ -1,4 +1,3 @@
-#include <iostream>
 #include <fstream>
 #include <memory>
 
@@ -193,27 +192,4 @@ public:
             DelTwo(p);
         }
     }
-
-    void StraightLeft(const std::shared_ptr<Node<T>> &p, std::ostream &os) {
-        if (p != nullptr) {
-            os << p->key << "\n";
-            StraightLeft(p->left, os);
-            StraightLeft(p->right, os);
-        }
-    }
 };
-
-int main() {
-    std::ifstream fin("input.txt");
-    std::ofstream fout("output.txt");
-    int64_t to_del;
-    fin >> to_del;
-    Tree<int64_t> tree;
-    int64_t c;
-    while (fin >> c) {
-        tree.Insert(c);
-    }
-    tree.DelNode(to_del);
-    tree.StraightLeft(tree.GetFirst(), fout);
-    return 0;
-}
