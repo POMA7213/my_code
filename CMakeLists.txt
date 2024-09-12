@@ -4,4 +4,4 @@ project(my_code)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(my_code
-        Strings/manacher.cpp)
+        main.cpp)

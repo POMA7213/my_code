@@ -2,19 +2,22 @@
 #include <string>
 #include <utility>
 
-std::vector<size_t> ComputeZet(const std::string &pattern) {
-    std::vector<size_t> res(pattern.size());
+using namespace std;
+typedef long long ll;
+
+vector<ll> ComputeZet(const string &pattern) {
+    vector<ll> res(pattern.size());
     res[0] = pattern.size();
     if (pattern.size() == 1) {
         return res;
     }
-    size_t sec = 1;
+    ll sec = 1;
     while (sec < pattern.size() && pattern[sec] == pattern[sec - 1]) {
         ++sec;
     }
     res[1] = sec - 1;
-    std::pair<size_t, size_t> max_right = {1, sec};
-    for (size_t counter = 2; counter < res.size(); ++counter) {
+    pair<ll, ll> max_right = {1, sec};
+    for (ll counter = 2; counter < res.size(); ++counter) {
         if (counter >= max_right.second) {
             auto counter_in_loop = counter;
             while (counter_in_loop < res.size() &&
@@ -29,7 +32,7 @@ std::vector<size_t> ComputeZet(const std::string &pattern) {
             res[counter] = res[counter - max_right.first];
             continue;
         }
-        size_t counter_in_loop = max_right.second;
+        ll counter_in_loop = max_right.second;
         while (counter_in_loop < res.size() &&
                pattern[counter_in_loop] == pattern[counter_in_loop - counter]) {
             ++counter_in_loop;

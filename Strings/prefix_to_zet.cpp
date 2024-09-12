@@ -1,9 +1,12 @@
 #include <vector>
 #include <algorithm>
 
-std::vector<int64_t> ComputeZet(const std::vector<int64_t> &pref) {
-    std::vector<int64_t> zet(pref.size(), 0);
-    for (size_t i = 1; i < pref.size(); ++i) {
+using namespace std;
+typedef long long ll;
+
+vector<int64_t> ComputeZet(const vector<int64_t> &pref) {
+    vector<int64_t> zet(pref.size(), 0);
+    for (ll i = 1; i < pref.size(); ++i) {
         if (pref[i] != 0) {
             zet[i - pref[i] + 1] = pref[i];
         }
@@ -16,12 +19,12 @@ std::vector<int64_t> ComputeZet(const std::vector<int64_t> &pref) {
         }
     }
 
-    size_t step;
-    for (size_t i = zet[1] + 1; i + 1 < zet.size(); ++i) {
+    ll step;
+    for (ll i = zet[1] + 1; i + 1 < zet.size(); ++i) {
         step = i;
         if (zet[i] != 0 && zet[i + 1] == 0) {
-            for (size_t j = 1; j < static_cast<size_t>(zet[i]) && zet[i + j] <= zet[j]; ++j) {
-                zet[i + j] = std::min(zet[j], zet[i] - static_cast<int64_t>(j));
+            for (ll j = 1; j < static_cast<ll>(zet[i]) && zet[i + j] <= zet[j]; ++j) {
+                zet[i + j] = min(zet[j], zet[i] - static_cast<int64_t>(j));
                 step = i + j;
             }
         }

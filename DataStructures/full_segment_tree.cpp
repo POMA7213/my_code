@@ -60,29 +60,3 @@ void DoAdd(vector <pair<ll, ll>> &tree, ll ver, ll l, ll r, ll il, ll ir, ll val
     }
     tree[ver].first = tree[2 * ver + 1].first + tree[2 * ver + 2].first;
 }
-
-int main() {
-    srand(5);
-    vector <ll> data(10);
-    vector <pair<ll, ll>> tree(45);
-    for (ll i = 0; i < 10000; ++i) {
-        ll oper = rand() % 2;
-        ll l, r;
-        l = rand() % 10;
-        r = rand() % (10 - l) + l + 1;
-        if (oper) {
-            ll val;
-            val = rand() % 10;
-            for (ll j = l; j < r; ++j) {
-                data[j] += val;
-            }
-            DoAdd(tree, 0, 0, 10, l, r, val);
-        } else {
-            ll dum = accumulate(data.begin() + l, data.begin() + r, 0ll);
-            ll res = DoFind(tree, 0, 0, 10, l, r);
-            if (dum != res) {
-                cout << l << ' ' << r << ' ' << i << '\n';
-            }
-        }
-    }
-}

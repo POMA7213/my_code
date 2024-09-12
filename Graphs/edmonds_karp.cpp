@@ -5,13 +5,17 @@
 #include <limits>
 #include <queue>
 
-int64_t Compute(const std::vector<std::unordered_map<size_t, int64_t>> &forward) {
-    std::vector<std::unordered_map<size_t, int64_t>> backward(forward.size());
+using namespace std;
+
+typedef long long ll;
+
+ll Compute(const vector<unordered_map<ll, ll>> &forward) {
+    vector<unordered_map<ll, ll>> backward(forward.size());
     while (!forward.empty()) {
-        std::vector<size_t> from(forward.size(), std::numeric_limits<size_t>::max() / 2);
-        std::vector<int> half_queue(forward.size());
+        vector<ll> from(forward.size(), numeric_limits<ll>::max() / 2);
+        vector<int> half_queue(forward.size());
         from[0] = 0;
-        std::queue<size_t> queue;
+        queue<ll> queue;
         queue.push(0);
         while (!queue.empty()) {
             auto front = queue.front();
@@ -23,13 +27,13 @@ int64_t Compute(const std::vector<std::unordered_map<size_t, int64_t>> &forward)
                 }
             }
         }
-        if (from[forward.size() - 1] == std::numeric_limits<size_t>::max() / 2) {
+        if (from[forward.size() - 1] == numeric_limits<ll>::max() / 2) {
             break;
         }
-        int64_t flow = std::numeric_limits<int64_t>::max();
-        size_t cur = forward.size() - 1;
+        ll flow = numeric_limits<ll>::max();
+        ll cur = forward.size() - 1;
         while (cur != 0) {
-            flow = std::min(flow, forward[from[cur]].at(cur) - backward[from[cur]][cur]);
+            flow = min(flow, forward[from[cur]].at(cur) - backward[from[cur]][cur]);
             cur = from[cur];
         }
         cur = static_cast<int>(forward.size() - 1);
@@ -39,7 +43,7 @@ int64_t Compute(const std::vector<std::unordered_map<size_t, int64_t>> &forward)
             cur = from[cur];
         }
     }
-    int64_t res = 0;
+    ll res = 0;
     for (auto c: forward[0]) {
         res += backward[0][c.first];
     }

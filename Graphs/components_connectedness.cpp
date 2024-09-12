@@ -5,25 +5,29 @@
 #include <stack>
 #include <map>
 
+using namespace std;
+
+typedef long long ll;
+
 struct Comp {
-    bool operator()(const size_t &fir, const size_t &sec) const {
+    bool operator()(const ll &fir, const ll &sec) const {
         return fir > sec;
     }
 };
 
-std::vector<size_t> GeneralDFS(const std::vector<std::unordered_set<size_t>> &graph) {
-    size_t index = 0;
-    std::vector<bool> visited(graph.size());
-    std::vector<size_t> dfs_numb(graph.size());
-    for (size_t counter = 0; counter < graph.size(); ++counter) {
+vector<ll> GeneralDFS(const vector<unordered_set<ll>> &graph) {
+    ll index = 0;
+    vector<bool> visited(graph.size());
+    vector<ll> dfs_numb(graph.size());
+    for (ll counter = 0; counter < graph.size(); ++counter) {
         if (!visited[counter]) {
-            std::stack<size_t> stack;
+            stack<ll> stack;
             stack.push(counter);
             visited[counter] = true;
             while (!stack.empty()) {
-                size_t top = stack.top();
+                ll top = stack.top();
                 bool has_not_visited = false;
-                for (size_t c: graph[top]) {
+                for (ll c: graph[top]) {
                     if (!visited[c]) {
                         has_not_visited = true;
                         stack.push(c);
@@ -42,35 +46,35 @@ std::vector<size_t> GeneralDFS(const std::vector<std::unordered_set<size_t>> &gr
     return dfs_numb;
 }
 
-std::vector<std::unordered_set<size_t>> Reverse(const std::vector<std::unordered_set<size_t>> &graph) {
-    std::vector<std::unordered_set<size_t>> rev_graph(graph.size());
-    for (size_t i = 0; i < graph.size(); ++i) {
-        for (size_t c: graph[i]) {
+vector<unordered_set<ll>> Reverse(const vector<unordered_set<ll>> &graph) {
+    vector<unordered_set<ll>> rev_graph(graph.size());
+    for (ll i = 0; i < graph.size(); ++i) {
+        for (ll c: graph[i]) {
             rev_graph[c].insert(i);
         }
     }
     return rev_graph;
 }
 
-std::vector<size_t>
-ComputeComponents(const std::vector<std::unordered_set<size_t>> &graph, const std::vector<size_t> &targets) {
-    std::vector<size_t> num_comp(graph.size());
-    std::vector<bool> visited(graph.size());
-    size_t index = 0;
-    std::map<size_t, size_t, Comp> seq_vers;
-    for (size_t i = 0; i < targets.size(); ++i) {
+vector<ll>
+ComputeComponents(const vector<unordered_set<ll>> &graph, const vector<ll> &targets) {
+    vector<ll> num_comp(graph.size());
+    vector<bool> visited(graph.size());
+    ll index = 0;
+    map<ll, ll, Comp> seq_vers;
+    for (ll i = 0; i < targets.size(); ++i) {
         seq_vers[targets[i]] = i;
     }
     for (auto [key, vertex]: seq_vers) {
         if (!visited[vertex]) {
-            std::stack<size_t> stack;
+            stack<ll> stack;
             stack.push(vertex);
             visited[vertex] = true;
             num_comp[vertex] = index;
             while (!stack.empty()) {
-                size_t top = stack.top();
+                ll top = stack.top();
                 bool has_not_visited = false;
-                for (size_t c: graph[top]) {
+                for (ll c: graph[top]) {
                     if (!visited[c]) {
                         has_not_visited = true;
                         stack.push(c);
@@ -89,7 +93,7 @@ ComputeComponents(const std::vector<std::unordered_set<size_t>> &graph, const st
     return num_comp;
 }
 
-std::vector<uint64_t> Compute(const std::vector<std::unordered_set<size_t>> &graph) {
+vector<ll> Compute(const vector<unordered_set<ll>> &graph) {
     auto exits = GeneralDFS(graph);
     auto rev_graph = Reverse(graph);
     auto vers_components = ComputeComponents(rev_graph, exits);
