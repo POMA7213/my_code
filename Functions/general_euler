@@ -1,0 +1,21 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+typedef long long ll;
+
+array<ll, 3> Euler(ll a, ll b)
+{
+    ll r0 = a, r1 = b;
+    ll s0 = 1, s1 = 0;
+    ll t0 = 0, t1 = 1;
+    while (r1 != 0)
+    {
+        ll q = r0 / r1;
+        ll tr = r0 - r1 * q;
+        ll ts = s0 - s1 * q;
+        ll tt = t0 - t1 * q;
+        t0 = t1, s0 = s1, r0 = r1;
+        t1 = tt, s1 = ts, r1 = tr;
+    }
+    return {r0, s0, t0}; // returns gcd, x, y: x*a+y*b=gcd
+}
